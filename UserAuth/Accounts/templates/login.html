@@ -6,30 +6,39 @@
 	<div class="card-body">
 		<h3 class="card-title text-center">Log in to Django</h3>
 		<div class="card-text">
+			<div id="message-container">
+				{% if messages %}
+					{% for message in messages %}
+						<div class="alert alert-info message m-2" data-message="{{ message }}">
+							{{ message }}
+						</div>
+					{% endfor %}
+				{% endif %}
+			</div>
 			<!--
 			<div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
-			<form>
-				<!-- to error: add class "has-danger" -->
-				<div class="form-group">
-					<label for="exampleInputEmail1">Email address</label>
-					<input type="email" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
-				</div>
-				<div class="form-group">
-					<label for="exampleInputPassword1">Password</label>
-					
-					<input type="password" class="form-control form-control-sm" id="exampleInputPassword1">
-				</div>
-				<a href="#" style="float:right;font-size:12px;">Forgot password?</a>
-				<button type="submit" class="btn btn-primary btn-block">Sign in</button>
-				
-				<div class="sign-up">
-					Don't have an account? <a href="{url 'register_attempt'}">Create One</a>
-				</div>
+			<form method="post">
+				{% csrf_token %}
+					<!-- to error: add class "has-danger" -->
+					<div class="form-group ">
+						<label for="exampleInputEmail1">Username</label>
+						<input type="text" class="form-control form-control-sm mt-1" required name="username" id="exampleInputEmail1" aria-describedby="emailHelp">
+					</div>
+					<div class="form-group mt-2">
+						<label for="exampleInputPassword1">Password</label>
+						<input type="password" class="form-control form-control-sm mt-1" required name="password" id="exampleInputPassword1">
+					</div>
+					<a href="#" style="float:right;font-size:12px;">Forgot password?</a>
+					<div class="form-group text text-center m-3">
+						<button type="submit" class="btn btn-primary btn-block">Sign in</button>
+					</div>
+					<div class="sign-up">
+						Don't have an account? <a href="{% url 'register_attempt' %}">Create One</a>
+					</div>
 			</form>
 		</div>
 	</div>
 </div>
 </div>
-
 
 {% endblock  %}
