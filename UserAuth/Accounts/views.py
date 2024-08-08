@@ -35,6 +35,7 @@ def login_attempt(request):
         
         login(request, user)
         return redirect('dashboard')
+    
 
     return render(request, 'login.html')
 
@@ -103,6 +104,46 @@ def send_mail_after_registration(email, token):
     recipient_list = [email]
     send_mail(subject, message, email_from, recipient_list)
 
-@login_required
+@login_required(login_url='/login')
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    user = request.user
+    context = {
+        'user': user
+    }
+    return render(request, 'dashboard.html', context)
+
+def logout_attempt(request):
+    logout(request)
+    return redirect('/login')
+
+def change_password(request):
+    if request.method == 'POST':
+        username =  request.POST.get('username')
+        email =  request.POST.get('email')
+        new_password1 =  request.POST.get('new_password1')
+        new_password2 =  request.POST.get('new_password2')
+
+        if new_password1 != new_password2:
+            messages.error(request, "Password don't match")
+            return redirect('change_password')
+        
+        user_obj = User.objects.filter(username = username).first()
+
+        if user_obj.email != email:
+            messages.error(request, 'Incorrect email...')
+            return redirect('change_password')
+
+        if user_obj is None:
+            messages.error(request, "User not found")
+            return redirect('change_password')
+
+        profile_obj = Profile.objects.filter(user = user_obj).first()
+        if not profile_obj.is_verified:
+            messages.warning(request, 'Please verify your account first...')
+            return redirect('/')
+
+        user_obj.set_password(new_password1)
+        user_obj.save()
+
+    return render(request, 'change_password.html')
+

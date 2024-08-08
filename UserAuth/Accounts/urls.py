@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
 
 urlpatterns = [
@@ -11,5 +11,7 @@ urlpatterns = [
     path('error', error_page, name='error'),
     path('dashboard/', dashboard, name='dashboard'), 
     path('logout', logout_attempt, name='logout_attempt'),
-    path('change_password', change_password, name='change_password')
+    path('change_password', change_password, name='change_password'),
+
+    path('accounts/', include('allauth.urls')),
 ]

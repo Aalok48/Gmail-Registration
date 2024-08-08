@@ -32,10 +32,13 @@
 					<div class="form-group text text-center m-3">
 						<button type="submit" class="btn btn-primary btn-block">Sign in</button>
 					</div>
-					<div class="sign-up">
-						Don't have an account? <a href="{% url 'register_attempt' %}">Create One</a>
-					</div>
 			</form>
+			<div class="sign-up">
+				Don't have an account? <a href="{% url 'register_attempt' %}">Create One</a>
+			</div>
+			<div class="sign-up">
+				<a class="btn btn-primary" href="http://localhost:8000/accounts/google/login">Login with google</a>
+			</div>
 		</div>
 	</div>
 </div>
