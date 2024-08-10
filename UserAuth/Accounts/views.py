@@ -146,4 +146,3 @@ def change_password(request):
         user_obj.save()
 
     return render(request, 'change_password.html')
-
